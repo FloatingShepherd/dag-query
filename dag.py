@@ -1,3 +1,5 @@
+from functools import partial
+
 class Dag:
     def __init__(self, nodes):
         self.nodes = nodes
@@ -10,19 +12,32 @@ class Dag:
     def printError():
         print('NO SUCH ROUTE')
 
-    def calculateShortestDistanceBetweenTwoNodes(self, startName, endName):
+    def getShortestDistanceBetweenTwoNodes(self, startName, endName):
         startNode = Dag.findByName(self.nodes, startName)
         end = Dag.findByName(self.nodes, endName)
         if start is None or end is None:
             Dag.printError()
         else:
-            
+            routesFound = [] 
+            addRoute = partial(Dag.foundRoute, routesFound)
 
-    def findChildNode(self, candidateNodePairs, name):
-        for c in candidateNodePairs:
-            path = c.findPathByChildNode(name)
+            findChildNode([Route(startNode.getPaths())], endName, addRoute)
+
+    @staticmethod        
+    def foundRoute(routesFound, route):
+        routesFound.append(route)
+        return  routesFound
+
+    def hasShorterRoute(routes, route):
+        return min([r.getDistance()  for r in routes]) < route.getDistance()
+
+    def findChildNode(self, candidateRoute, name, addRoute):
+        for route in candidateRoute:
+            lastNode = route.getCurrentNode()
+            path = lastNode.findPathByChildNode(name)
             if path is not None:
-                return path
+                route.addNextPath(path)
+                addRoute(route)
 
         newCandidates = set()
         for c in candidates:
@@ -33,3 +48,5 @@ class Dag:
         result = findChildNode(newCandidates, name)
         if result > 0:
             result = result + 
+
+    
