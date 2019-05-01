@@ -36,6 +36,7 @@ class Dag:
             else:
                 links = lastNode.getLinks()
                 for l in links:
+                    if l.child != 
 
 
         Dag.hasShorterRoute(candidateRoutes, route)

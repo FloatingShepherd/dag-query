@@ -17,4 +17,6 @@ class Route:
 
     def copyFrom(self, route):
         self.links = route.getLinks()
+
+    def has(self, link):
         
