@@ -1,14 +1,20 @@
-class route:
-    def __init__(self, paths):
-        self.paths = paths or []
+class Route:
+    def __init__(self, links):
+        self.links = links or []
 
-    def addNextPath(self, path):
-        self.paths.append(path)
-        return self.paths
+    def addNextLink(self, link):
+        self.links.append(link)
+        return self.links
 
     def getDistance(self):
-        return sum([path.weight for path in self.paths])
+        return sum([link.weight for link in self.links])
 
     def getCurrentNode(self):
-        return self.paths[-1]
+        return self.links[-1]
+
+    def getLinks(self):
+        return self.links
+
+    def copyFrom(self, route):
+        self.links = route.getLinks()
         

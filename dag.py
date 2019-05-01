@@ -1,52 +1,57 @@
-from functools import partial
+from routes import Routes
+from route import Route
 
 class Dag:
     def __init__(self, nodes):
         self.nodes = nodes
 
-    @staticmethod
+    @staticmethod    
     def findByName(nodes, name):
         return next((node for node in nodes if node.name==name), None)
 
-    @staticmethod
-    def printError():
-        print('NO SUCH ROUTE')
+    def findByName(self, name):
+        return next((node for node in self.nodes if node.name==name), None)
 
     def getShortestDistanceBetweenTwoNodes(self, startName, endName):
-        startNode = Dag.findByName(self.nodes, startName)
-        end = Dag.findByName(self.nodes, endName)
-        if start is None or end is None:
+        startNode = findByName(startName)
+        endNode = findByName(endName)
+        if startNode is None or endNode is None:
             Dag.printError()
         else:
-            routesFound = [] 
-            addRoute = partial(Dag.foundRoute, routesFound)
-
-            findChildNode([Route(startNode.getPaths())], endName, addRoute)
-
-    @staticmethod        
-    def foundRoute(routesFound, route):
-        routesFound.append(route)
-        return  routesFound
+            routes = Routes([Route(startNode.getLinks())])
+            findChildNode(endName, routes, Route())
 
     def hasShorterRoute(routes, route):
         return min([r.getDistance()  for r in routes]) < route.getDistance()
 
-    def findChildNode(self, candidateRoute, name, addRoute):
-        for route in candidateRoute:
+    def findChildNode(self, destinationName, candidateRoutes, minRoute):
+        newRoutes = Routes()
+        
+        for route in candidateRoutes.getRoutes():
             lastNode = route.getCurrentNode()
-            path = lastNode.findPathByChildNode(name)
-            if path is not None:
-                route.addNextPath(path)
-                addRoute(route)
+            link = lastNode.findLinkByChildNode(destinationName)
+            if link is not None:
+                route.addNextLink(link)
+                minRoute.copyFrom(returnMinRoute(minRoute, route))
+            else:
+                links = lastNode.getLinks()
+                for l in links:
 
+
+        Dag.hasShorterRoute(candidateRoutes, route)
         newCandidates = set()
         for c in candidates:
-            paths = c.getPaths()  
-            for p in paths:
-                node = findByName(self.nodes, p.child)
+            links = c.getLinks()  
+            for link in links:
+                node = findByName(self.nodes, link.child)
                 newCandidates.add(node) 
-        result = findChildNode(newCandidates, name)
+        result = findChildNode(newCandidates, destinationName)
         if result > 0:
             result = result + 
 
+    def returnMinRoute(self, currentMinRoute, route):
+        return currentMinRoute if currentMinRoute.getDistance() < route.getDistance() else route
+
+    def printError(self):
+        print('NO SUCH ROUTE')
     

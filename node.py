@@ -1,14 +1,14 @@
 class Node:
-  def __init__(self, name, paths):
+  def __init__(self, name, links):
     self.name = name
-    self.outPaths = paths or []
+    self.outLinks = links or []
 
-  def addPath(self, path):
-    self.outPaths.append(path)
+  def addLink(self, link):
+    self.outLinks.append(link)
 
-  def getPaths(self):
-    return self.outPaths
+  def getLinks(self):
+    return self.outLinks
 
-  def findPathByChildNode(self, childName):
-    return next((path for path in self.outPaths if path.child==childName), None)
+  def findLinkByChildNode(self, childName):
+    return next((link for link in self.outLinks if link.child==childName), None)
   
