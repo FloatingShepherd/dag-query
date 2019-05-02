@@ -137,7 +137,6 @@ class Dag:
         else:
             return self.findRoutesWithMaxDistance(startNode, endName, distance)  
 
-
     def findRoutesWithMaxDistance(self, startNode, destinationName, distance):
         # get routes to process by getting all out going links of the starting node
         candidateRoutes = Routes([Route([link]) for link in startNode.getLinks()])
