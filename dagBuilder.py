@@ -1,3 +1,6 @@
+# this file contains functions used to build DAG. 
+# logic flow starts from generateGraph.
+
 from dag import Dag
 from node import Node
 from link import Link
@@ -34,6 +37,6 @@ def getParentAndChildNode(link, nodes):
     return nodeA if nodeA is not None and nodeA.name == link.parent else nodeB, nodeA if nodeA is not None and nodeA.name == link.child else nodeB
 
 def addLinkToParentNode(link, nodes):
-    parent = Dag.findByName(nodes, link.parent)
+    parent = Dag.findByNameStatic(nodes, link.parent)
     parent.addLink(link)
     return nodes
